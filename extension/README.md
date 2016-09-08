@@ -30,7 +30,7 @@ environment.
 
 6. Load unpacked extensions, select the extension directory in our project and click Reload
 
-7. Go to any job page, click the extension and you should see the following in chrome console:
+7. Go to, https://jobs.lever.co/pathgather/e700098b-b552-4b10-a5a5-e0e1e49a4154, click the extension and you should see the following in chrome console:
 
 
 *Response Example in Chrome Console*
@@ -38,7 +38,7 @@ environment.
     {
       title: "Backend Engineer",
       categories: "New York, NY", "Engineering", "Full-time"
-      url: "https://examplesite/company/test123"
+      url: "https://jobs.lever.co/pathgather/e700098b-b552-4b10-a5a5-e0e1e49a4154"
     }
 
 
