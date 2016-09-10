@@ -9,30 +9,30 @@ router.get('/', function(req, res, next) {
     data = {
       'logo': {
         'selector': '.main-header-logo img',
-        'property': 'src'
+        'attribute': 'src'
       },
       'title': {
         'selector': '.posting-headline h2',
-        'property': 'value'
+        'attribute': 'value'
       },
       'categories': {
         'selector': '.posting-categories .posting-category',
-        'property': 'value'
+        'attribute': 'value'
       },
       'responsibilities': {
-        'selector': 'h3:contains('Responsibilities') + .posting-requirements li',
-        'property': 'value'
+        'selector': "h3:contains('Responsibilities') + .posting-requirements li",
+        'attribute': 'value'
       }
     };
   } else if (req.query.host === 'www.lumens.com') {
     data = {
       'id': {
-        'selector': '[itemscope][itemtype="http://schema.org/Product"] meta[itemprop="name"]',
-        'property': 'content'
+        'selector': '[itemscope][itemtype="http://schema.org/Product"] > [data-pid]',
+        'attribute': 'data-pid'
       },
       'product_name': {
         'selector': '[itemscope][itemtype="http://schema.org/Product"] meta[itemprop="name"]',
-        'property': 'content'
+        'attribute': 'content'
       }
     }
   }
