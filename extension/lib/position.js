@@ -1,47 +1,43 @@
 let $ = require('jquery');
 
-let isImage = function(element) {
-  return element.prop('tagName') === 'IMG';
-};
-
-let setPositionValue = function(position, key, value) {
+let setObjectValue = function(object, key, value) {
   if (value) {
-    position[key] = value;
+    object[key] = value;
   }
 
-  return position;
+  return object;
 };
 
-let constructPosition = function(callback) {
+let construct = function(callback) {
   let url      = 'https://localhost/api/v1/selectors';
   let promise  = $.getJSON(url, {
     host: location.host
   });
 
   promise.done(function(json, status, xhr) {
-    let position = Object.keys(json.data).reduce(function(position, key) {
-      let elements = $(json.data[key]);
+    let object = Object.keys(json.data).reduce(function(object, key) {
+      let selector  = json.data[key].selector;
+      let attribute = json.data[key].attribute;
+
+      let elements = $(selector);
 
       if (elements.length > 1) {
-        position[key] = [];
+        object[key] = [];
 
         for (let c = 0; c < elements.length; c++) {
-          position[key].push($(elements[c]).text());
+          object[key].push($(elements[c]).attr(attribute));
         }
 
       } else {
-        if (isImage(elements)) {
-          position = setPositionValue(position, key, elements.prop('src'));
-        } else {
-          position = setPositionValue(position, key, elements.text());
-        }
+        object = setObjectValue(object, key, elements.attr(attribute));
       }
-      return position;
+
+      return object;
     }, {});
 
-    position['url'] = location.href;
+    object['url'] = location.href;
 
-    callback(position);
+    callback(object);
   })
 
   promise.fail(function() {
@@ -49,4 +45,7 @@ let constructPosition = function(callback) {
   });
 };
 
-export default constructPosition
+export default ({
+  construct: construct,
+  define: define
+})
