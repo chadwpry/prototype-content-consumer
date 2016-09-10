@@ -46,6 +46,5 @@ let construct = function(callback) {
 };
 
 export default ({
-  construct: construct,
-  define: define
+  construct: construct
 })
