@@ -27,11 +27,27 @@ router.get('/', function(req, res, next) {
   } else if (req.query.host === 'www.lumens.com') {
     data = {
       'id': {
-        'selector': '[itemscope][itemtype="http://schema.org/Product"] > [data-pid]',
+        'selector': '[itemscope][itemtype="http://schema.org/Product"] > [data-pid]:first',
         'attribute': 'data-pid'
       },
+      'product_url': {
+        'selector': '[itemscope][itemtype="http://schema.org/Product"] [itemprop="url"]:first',
+        'attribute': 'content'
+      },
       'product_name': {
-        'selector': '[itemscope][itemtype="http://schema.org/Product"] meta[itemprop="name"]',
+        'selector': '[itemscope][itemtype="http://schema.org/Product"] [itemprop="name"]:first',
+        'attribute': 'innerText'
+      },
+      'product_brand': {
+        'selector': '[itemscope][itemtype="http://schema.org/Product"] [itemscope][itemtype="http://schema.org/Brand"] meta[itemprop="name"]:first',
+        'attribute': 'content'
+      },
+      'product_offer': {
+        'selector': '[itemscope][itemtype="http://schema.org/Product"] [itemscope][itemtype="http://schema.org/Offer"] meta[itemprop="price"]:first',
+        'attribute': 'content'
+      },
+      'product_image': {
+        'selector': '[itemscope][itemtype="http://schema.org/Product"] .productimages meta[property="og:image"]',
         'attribute': 'content'
       }
     }

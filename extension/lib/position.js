@@ -35,7 +35,7 @@ let construct = function(callback) {
       return object;
     }, {});
 
-    object['url'] = location.href;
+    object['location'] = location.href;
 
     callback(object);
   })
