@@ -7,16 +7,34 @@ router.get('/', function(req, res, next) {
 
   if (req.query.host === 'jobs.lever.co') {
     data = {
-      "logo": ".main-header-logo img",
-      "title": ".posting-headline h2",
-      "categories": ".posting-categories .posting-category",
-      "responsibilities": "h3:contains('Responsibilities') + .posting-requirements li"
+      'logo': {
+        'selector': '.main-header-logo img',
+        'property': 'src'
+      },
+      'title': {
+        'selector': '.posting-headline h2',
+        'property': 'value'
+      },
+      'categories': {
+        'selector': '.posting-categories .posting-category',
+        'property': 'value'
+      },
+      'responsibilities': {
+        'selector': 'h3:contains('Responsibilities') + .posting-requirements li',
+        'property': 'value'
+      }
     };
-  } else if (req.query.host === 'www.spotify.com') {
+  } else if (req.query.host === 'www.lumens.com') {
     data = {
-      "title": ".job-title",
-      "categories": ".job-tags li a"
-    };
+      'id': {
+        'selector': '[itemscope][itemtype="http://schema.org/Product"] meta[itemprop="name"]',
+        'property': 'content'
+      },
+      'product_name': {
+        'selector': '[itemscope][itemtype="http://schema.org/Product"] meta[itemprop="name"]',
+        'property': 'content'
+      }
+    }
   }
 
   res.json({
