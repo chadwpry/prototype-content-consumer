@@ -40,9 +40,9 @@ environment.
 
 7. [Go to the projects page](https://console.cloud.google.com/iam-admin/projects) to create a project. After creating a project, create [a Collector entity](https://console.cloud.google.com/datastore/entities/query).
 
-8. Associate your project with [Google Cloud Platform Console](https://console.cloud.google.com/) with the Cloud Datastore API enabled. This will provide authentication credentials for you to use in your application to identify it to Google and authorize its use of the Cloud Datastore API.
+8. Set up your [application credentials](https://developers.google.com/identity/protocols/application-default-credentials) so your project can authenticate with your recently created project and read/write data to gcloud. Scroll down to, "How the Application Default Credentials work" and follow the instructions.
 
-9. Set up your [application credentials](https://developers.google.com/identity/protocols/application-default-credentials)
+9. When you get to the [API Console Credentials page](https://console.developers.google.com/projectselector/apis/credentials), select your project and when you go to create your credentials, select 'Service account key'. In the service account drop down, choose 'Compute Engine default service account' and then create the key as a JSON file.
 
 10. After downloading your private key, following the instructions from step 9, put your private key in the credentials folder and adjust your .gitignore to exclude it.
 
