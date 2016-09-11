@@ -8,7 +8,7 @@ let setObjectValue = function(object, key, value) {
   return object;
 };
 
-let construct = function(callback) {
+let constructProduct = function(callback) {
   let url      = 'https://localhost/api/v1/selectors';
   let promise  = $.getJSON(url, {
     host: location.host
@@ -36,6 +36,7 @@ let construct = function(callback) {
     }, {});
 
     object['location'] = location.href;
+    object['host']     = location.hostname;
 
     callback(object);
   })
@@ -46,5 +47,5 @@ let construct = function(callback) {
 };
 
 export default ({
-  construct: construct
+  constructProduct: constructProduct
 })
