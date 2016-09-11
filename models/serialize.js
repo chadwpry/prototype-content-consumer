@@ -1,14 +1,22 @@
 let serializer = (attributes) => {
-  return (model) => {
-    return {
-      "data": {
+  return (models) => {
+    if (!Array.isArray(models)) {
+      models = [models];
+    }
+
+    let data = models.map((model) => {
+      return {
         "type": model.key.kind,
         "id": model.key.id,
         "attributes": attributes.reduce((previous, attribute) => {
           previous[attribute] = model.data[attribute];
           return previous;
         }, {})
-      },
+      }
+    });
+
+    return {
+      "data": data,
       "jsonapi": "1.0.0"
     };
   };
