@@ -36,13 +36,9 @@ environment.
 
 6. Install Google Cloud module:
 
-    `npm install gcloud --save-dev`
+    `npm install --save google-cloud`
 
-7. Install Google Cloud Datastore module:
-
-    `npm install @google-cloud/datastore --save-dev`
-
-7. [Follow instructions](https://cloud.google.com/datastore/docs/) for setting up Google Cloud Datastore. After creating a project and creating two entities (Collector, Selector), you can move on.
+7. [Go to the projects page](https://console.cloud.google.com/iam-admin/projects) to create a project. After creating a project, create [a Collector entity](https://console.cloud.google.com/datastore/entities/query).
 
 8. Associate your project with [Google Cloud Platform Console](https://console.cloud.google.com/) with the Cloud Datastore API enabled. This will provide authentication credentials for you to use in your application to identify it to Google and authorize its use of the Cloud Datastore API.
 
@@ -52,11 +48,11 @@ environment.
 
 11. Wherever you want to interact with Google's persistence layer you can now include the following:
 ```<javascript>
-var gcloud = require('gcloud');
+var gcloud = require('google-cloud');
 
 var datastore = gcloud.datastore({
-  projectId: ‘projectId’,
-  keyFilename: './credentials/gcloud-private-key.json'
+  projectId: 'prototype-content-consumer',
+  keyFilename: './credentials/gcloud-data-store-private-key.json'
 });
 
 // example: saving a document:
