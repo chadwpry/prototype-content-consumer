@@ -1,6 +1,6 @@
 .DS_Store
 
-credentials/*.pem
+credentials/*
 
 node_modules
 
