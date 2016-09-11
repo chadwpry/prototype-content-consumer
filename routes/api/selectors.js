@@ -1,8 +1,21 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let models = require('../../models/datastore');
+let Serialize = require('../../models/serialize');
+
+let router = express.Router();
+
+/* GET /api/v1/selectors/:host */
+router.get('/:host', (req, res, next) => {
+  models.readSelector(req.params.host, (selector) => {
+    res.json(Serialize.selector(selector));
+  }, (errors) => {
+    res.status(404);
+    res.json({});
+  });
+});
 
 /* GET /api/v1/selectors */
-router.get('/', function(req, res, next) {
+router.get('/', (req, res, next) => {
   let data;
 
   if (req.query.host === 'jobs.lever.co') {
@@ -24,41 +37,6 @@ router.get('/', function(req, res, next) {
         'attribute': 'value'
       }
     };
-  } else if (req.query.host === 'www.lumens.com') {
-    data = {
-      'product_id': {
-        'selector': '[itemscope][itemtype="http://schema.org/Product"] > [data-pid]:first',
-        'attribute': 'data-pid'
-      },
-      'product_url': {
-        'selector': '[itemscope][itemtype="http://schema.org/Product"] [itemprop="url"]:first',
-        'attribute': 'content'
-      },
-      'product_name': {
-        'selector': '[itemscope][itemtype="http://schema.org/Product"] [itemprop="name"]:first',
-        'attribute': 'innerText'
-      },
-      'product_brand_name': {
-        'selector': '[itemscope][itemtype="http://schema.org/Product"] [itemscope][itemtype="http://schema.org/Brand"] meta[itemprop="name"]:first',
-        'attribute': 'content'
-      },
-      'product_brand_url': {
-        'selector': '[itemscope][itemtype="http://schema.org/Product"] [itemscope][itemtype="http://schema.org/Brand"] a[itemprop="url"]:first',
-        'attribute': 'href'
-      },
-      'product_offer': {
-        'selector': '[itemscope][itemtype="http://schema.org/Product"] [itemscope][itemtype="http://schema.org/Offer"] meta[itemprop="price"]:first',
-        'attribute': 'content'
-      },
-      'product_offer_currency': {
-        'selector': '[itemscope][itemtype="http://schema.org/Product"] [itemscope][itemtype="http://schema.org/Offer"] meta[itemprop="priceCurrency"]:first',
-        'attribute': 'content'
-      },
-      'product_image_url': {
-        'selector': '[itemscope][itemtype="http://schema.org/Product"] .productimages meta[property="og:image"]',
-        'attribute': 'content'
-      }
-    }
   }
 
   res.json({

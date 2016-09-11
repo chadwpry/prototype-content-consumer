@@ -8,16 +8,14 @@ let setObjectValue = function(object, key, value) {
   return object;
 };
 
-let constructProduct = function(callback) {
-  let url      = 'https://localhost/api/v1/selectors';
-  let promise  = $.getJSON(url, {
-    host: location.host
-  });
+let constructProduct = function(host, callback) {
+  let url      = `https://localhost/api/v1/selectors/${location.host}`;
+  let promise  = $.getJSON(url);
 
   promise.done(function(json, status, xhr) {
-    let object = Object.keys(json.data).reduce(function(object, key) {
-      let selector  = json.data[key].selector;
-      let attribute = json.data[key].attribute;
+    let object = Object.keys(json.data.attributes).reduce(function(object, key) {
+      let selector  = json.data.attributes[key].selector;
+      let attribute = json.data.attributes[key].attribute;
 
       let elements = $(selector);
 
