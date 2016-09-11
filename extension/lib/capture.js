@@ -9,7 +9,7 @@ let setObjectValue = function(object, key, value) {
 };
 
 let constructProduct = function(host, callback) {
-  let url      = `https://localhost/api/v1/selectors/${location.host}`;
+  let url      = `https://localhost/api/v1/selectors/${host}`;
   let promise  = $.getJSON(url);
 
   promise.done(function(json, status, xhr) {
