@@ -6,8 +6,8 @@ let router = express.Router();
 
 /* GET /api/v1/selectors/:host */
 router.get('/:host', (req, res, next) => {
-  datastore.readSelector(req.params.host, (selector) => {
-    res.json(Serialize.selector(selector));
+  datastore.findSupplier(req.params.host, (supplier) => {
+    res.json(Serialize.supplier(supplier));
   }, (errors) => {
     res.status(404);
     res.json({});

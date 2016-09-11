@@ -22,12 +22,13 @@ let serializer = (attributes) => {
   };
 };
 
-module.exports.selector = serializer([
-  'source_id',
-  'product_url',
-  'product_image_url',
-  'product_brand_name',
-  'product_brand_url',
-  'product_offer',
-  'product_offer_currency',
+module.exports.supplier = serializer([
+  'selectors'
+//  'source_id',
+//  'product_url',
+//  'product_image_url',
+//  'product_brand_name',
+//  'product_brand_url',
+//  'product_offer',
+//  'product_offer_currency'
 ]);
