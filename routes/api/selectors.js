@@ -1,12 +1,12 @@
 let express = require('express');
-let models = require('../../models/datastore');
+let datastore = require('../../models/datastore');
 let Serialize = require('../../models/serialize');
 
 let router = express.Router();
 
 /* GET /api/v1/selectors/:host */
 router.get('/:host', (req, res, next) => {
-  models.readSelector(req.params.host, (selector) => {
+  datastore.readSelector(req.params.host, (selector) => {
     res.json(Serialize.selector(selector));
   }, (errors) => {
     res.status(404);
