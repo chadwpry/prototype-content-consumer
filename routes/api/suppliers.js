@@ -6,12 +6,14 @@ let router = express.Router();
 
 /* GET /api/v1/selectors/:host */
 router.get('/:host', (req, res, next) => {
-  datastore.findSupplier(req.params.host, (supplier) => {
-    res.json(Serialize.supplier(supplier));
-  }, (errors) => {
-    res.status(404);
-    res.json({});
-  });
+  datastore.findSupplier(req.params.host)
+    .then((supplier) => {
+      res.json(Serialize.supplier(supplier));
+    })
+    .catch((errors) => {
+      res.status(404);
+      res.json({});
+    });
 });
 
 /* GET /api/v1/selectors */

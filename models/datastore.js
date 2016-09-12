@@ -8,54 +8,52 @@ let client = datastore({
 
 module.exports.client = client;
 
-module.exports.findAll = (query, successCallback, errorCallback) => {
-  client.runQuery(query, (error, entities) => {
-    if (error) {
-      errorCallback(error);
-    } else {
-      successCallback(entities);
-    }
+module.exports.findAll = (query) => {
+  return new Promise((resolve, reject) => {
+    client.runQuery(query, (error, entities) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(entities);
+      }
+    });
   });
 };
 
-module.exports.findOne = (query, successCallback, errorCallback) => {
-  client.runQuery(query.limit(1), (error, entities) => {
-    if (error) {
-      errorCallback(error);
+module.exports.findOne = (query) => {
+  return module.exports.findAll(query.limit(1));
+};
+
+module.exports.findSupplier = (host) => {
+  return module.exports.findOne(supplierQuery(host));
+};
+
+module.exports.save = (id, kind, dataset) => {
+  return new Promise((resolve, reject) => {
+    let key;
+
+    if (id) {
+      key = client.key([kind, parseInt(id, 10)]);
     } else {
-      successCallback(entities[0]);
+      key = client.key(kind);
     }
+
+    let entity = {
+      key: key,
+      data: toDatastore(dataset)
+    };
+
+    client.save(entity, (error) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(entity);
+      }
+    });
   });
 };
 
-module.exports.findSupplier = (host, successCallback, errorCallback) => {
-  module.exports.findOne(supplierQuery(host), successCallback, errorCallback);
-};
-
-module.exports.save = (id, kind, dataset, successCallback, errorCallback) => {
-  let key;
-
-  if (id) {
-    key = client.key([kind, parseInt(id, 10)]);
-  } else {
-    key = client.key(kind);
-  }
-
-  let entity = {
-    key: key,
-    data: toDatastore(dataset)
-  };
-
-  client.save(entity, (error) => {
-    if (error) {
-      errorCallback(error);
-    } else {
-      successCallback(entity);
-    }
-  });
-};
-
-module.exports.saveSample = (id, payload, successCallback, errorCallback) => {
+module.exports.saveSample = (id, payload) => {
   let dataset = {
     data: payload,
     indexedColumns: [
@@ -64,10 +62,10 @@ module.exports.saveSample = (id, payload, successCallback, errorCallback) => {
     ]
   };
 
-  module.exports.save(id, 'Sample', dataset, successCallback, errorCallback);
+  return module.exports.save(id, 'Sample', dataset);
 };
 
-module.exports.saveSupplier = (id, data, successCallback, errorCallback) => {
+module.exports.saveSupplier = (id, data) => {
   let dataset = {
     data: data,
     indexedColumns: [
@@ -76,7 +74,7 @@ module.exports.saveSupplier = (id, data, successCallback, errorCallback) => {
     ]
   };
 
-  module.exports.save(id, 'Supplier', dataset, successCallback, errorCallback);
+  return module.exports.save(id, 'Supplier', dataset);
 };
 
 // PRIVATE
