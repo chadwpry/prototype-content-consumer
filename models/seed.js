@@ -1,10 +1,10 @@
-let datastore = require('./datastore');
+let Entity = require('./entity');
 
 // LUMENS
 let suppliers = require('./seeds/suppliers.json');
 
 suppliers.forEach((supplier) => {
-  datastore.saveSupplier(null, supplier)
+  Entity.saveSupplier(null, supplier)
     .then((supplier) => {
       console.log(`successfully created supplier`, supplier, "\n");
     })
@@ -13,14 +13,17 @@ suppliers.forEach((supplier) => {
     });
 });
 
-let samples = require('./seeds/samples.json');
-
-samples.forEach((sample) => {
-  datastore.saveSample(null, sample)
-    .then((sample) => {
-      console.log(`successfully created sample`, sample, "\n");
-    })
-    .catch((error) => {
-      console.log(`failed to create sample`, error, "\n");
-    });
-});
+//let samples = require('./seeds/samples.json');
+//
+//samples.forEach((sample) => {
+//  Entity.findSupplier('www.lumens.com')
+//    .then((supplier) => {
+//      Entity.saveSupplierSample(supplier, sample)
+//    })
+//    .then((sample) => {
+//      console.log(`successfully created sample`, sample, "\n");
+//    })
+//    .catch((error) => {
+//      console.log(`failed to create sample`, error, "\n");
+//    });
+//});

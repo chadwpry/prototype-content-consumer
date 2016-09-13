@@ -1,4 +1,4 @@
-let serializer = (attributes) => {
+module.exports = (attributes) => {
   return (models) => {
     if (!Array.isArray(models)) {
       models = [models];
@@ -25,19 +25,3 @@ let serializer = (attributes) => {
     };
   };
 };
-
-module.exports.sample = serializer([
-  'host',
-  'payload'
-]);
-
-module.exports.supplier = serializer([
-  'selectors'
-//  'source_id',
-//  'product_url',
-//  'product_image_url',
-//  'product_brand_name',
-//  'product_brand_url',
-//  'product_offer',
-//  'product_offer_currency'
-]);

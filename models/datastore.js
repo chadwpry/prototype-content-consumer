@@ -6,6 +6,24 @@ let client = datastore({
   keyFilename: config.googleCloudKey
 });
 
+// PRIVATE
+
+let toDatastore = (dataset) => {
+  return Object.keys(dataset.data).reduce((list, c) => {
+    if (dataset.data[c]) {
+      list.push({
+        name: c,
+        value: dataset.data[c],
+        excludeFromIndexes: (dataset.indexedColumns || []).indexOf(c) === -1
+      })
+    }
+
+    return list;
+  }, []);
+};
+
+// PUBLIC
+
 module.exports.client = client;
 
 module.exports.findAll = (query) => {
@@ -24,10 +42,6 @@ module.exports.findOne = (query) => {
   return module.exports.findAll(query.limit(1));
 };
 
-module.exports.findSupplier = (host) => {
-  return module.exports.findOne(supplierQuery(host));
-};
-
 module.exports.save = (id, kind, dataset) => {
   return new Promise((resolve, reject) => {
     let key;
@@ -37,6 +51,13 @@ module.exports.save = (id, kind, dataset) => {
     } else {
       key = client.key(kind);
     }
+
+
+    dataset.data.created = +new Date;
+    dataset.indexedColumns.push('created');
+
+    dataset.data.updated = +new Date;
+    dataset.indexedColumns.push('updated');
 
     let entity = {
       key: key,
@@ -51,48 +72,4 @@ module.exports.save = (id, kind, dataset) => {
       }
     });
   });
-};
-
-module.exports.saveSample = (id, payload) => {
-  let dataset = {
-    data: payload,
-    indexedColumns: [
-      'host',
-      'nonce'
-    ]
-  };
-
-  return module.exports.save(id, 'Sample', dataset);
-};
-
-module.exports.saveSupplier = (id, data) => {
-  let dataset = {
-    data: data,
-    indexedColumns: [
-      'host',
-      'name'
-    ]
-  };
-
-  return module.exports.save(id, 'Supplier', dataset);
-};
-
-// PRIVATE
-
-let supplierQuery = (host) => {
-  return client.createQuery('Supplier').filter('host', '=', host);
-};
-
-let toDatastore = (dataset) => {
-  return Object.keys(dataset.data).reduce((list, c) => {
-    if (dataset.data[c]) {
-      list.push({
-        name: c,
-        value: dataset.data[c],
-        excludeFromIndexes: (dataset.indexedColumns || []).indexOf(c) === -1
-      })
-    }
-
-    return list;
-  }, []);
 };
