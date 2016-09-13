@@ -1,4 +1,3 @@
-let jQuery = require('jquery');
 let capture = require('./lib/capture').default;
 
 //chrome.browserAction.onClicked.addListener((tab) => {
