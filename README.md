@@ -24,7 +24,8 @@ environment.
     `$ npm install`
 
 4. Create configuration
-    `$ cp config/config.json.example config.json
+
+    `$ cp config/config.json.example config/config.json
 
     Modify the path to your Google Cloud credentials
 
